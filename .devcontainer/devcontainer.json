@@ -1,0 +1,9 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+	"name": "C# (.NET Core Latest)",
+	"dockerFile": "Dockerfile",
+	"extensions": [
+		"ms-vscode.csharp"
+	],
+	"appPort": "5000:5001"
+}

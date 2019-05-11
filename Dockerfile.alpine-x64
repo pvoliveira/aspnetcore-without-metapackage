@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine AS build
+WORKDIR /app
+
+COPY *.sln .
+COPY *.targets .
+COPY wometapackage/*.csproj ./wometapackage/
+RUN dotnet restore
+
+COPY wometapackage/. ./wometapackage/
+WORKDIR /app/wometapackage
+RUN dotnet publish -c Release -o out
+
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-alpine AS runtime
+
+ENV ASPNETCORE_ENVIRONMENT=Development
+WORKDIR /app
+COPY --from=build /app/wometapackage/out ./
+ENTRYPOINT ["dotnet", "wometapackage.dll"]
